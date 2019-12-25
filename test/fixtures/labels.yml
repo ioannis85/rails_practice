@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tracking_number: MyString
+  real_weight: 
+  real_weight_carrier: 
+  overweight: 
+
+two:
+  tracking_number: MyString
+  real_weight: 
+  real_weight_carrier: 
+  overweight: 

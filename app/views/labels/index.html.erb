@@ -1,0 +1,82 @@
+<h1>Importar Labels</h1>
+<div>
+<input type="file" id="json_picker"
+  accept=".json,application/json">
+<div>
+</br>
+<h2>Vista previa</h2>
+<table id="tbl_result">
+<thead>  
+<th>tracking number</th>
+<th>carrier</th>
+<th>length</th>
+<th>width</th>
+<th>height</th>
+<th>weight</th>
+<th>distance unit</th>
+<th>mass unit</th>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+  <button id="btn_import_lbls">Importar</button>
+</div>
+<script>
+(function(){
+let json_data = [] 
+ const json_picker = document.getElementById('json_picker');
+ json_picker.addEventListener('change', function(evt){
+    const file_path = evt.target.value;
+    if(file_path){
+        const json_file = evt.target.files[0];
+        const reader = new FileReader()
+        reader.onload = function(event){
+            json_data = JSON.parse(reader.result)
+            buildTable(json_data)
+          };
+        reader.readAsText(json_file)
+    }
+});
+ const btn_import = document.getElementById('btn_import_lbls');
+ btn_import.addEventListener('click',function(evt){  
+     sendPostData(json_data)
+ })
+
+function buildTable(data){
+const table = document.getElementById('tbl_result')
+const tbody = table.tBodies[0]
+tbody.innerHTML = '';
+data.forEach(function(el){
+    const tr = `<tr> 
+                <td>${el.tracking_number}</td>
+                <td>${el.carrier}</td>
+                <td>${el.parcel.length}</td>
+                <td>${el.parcel.width}</td>
+                <td>${el.parcel.height}</td>
+                <td>${el.parcel.distance_unit}</td>
+                <td>${el.parcel.mass_unit}</td>
+                </tr>`
+    tbody.innerHTML += tr
+})
+}
+
+function sendPostData(data){
+ const xmlhttp = new XMLHttpRequest();  
+ const url = '/labels/load_labels';
+    xmlhttp.open("POST", url);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.onreadystatechange = function() { 
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if(this.status === 200){
+                alert('archivo cargado con éxito');
+            } else {
+                alert('error al cargar el archivo');
+            }
+        } 
+    }
+    xmlhttp.send(JSON.stringify({labels:data}));
+}
+
+})()
+</script>
