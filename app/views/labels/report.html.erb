@@ -1,2 +1,25 @@
-<h1>Labels#report</h1>
-<p>Find me in app/views/labels/report.html.erb</p>
+<div style="margin: 0 auto; width:600px">
+<h1>Labels reports</h1>
+<div>
+<table style=" table-layout: fixed;">
+    <thead>
+    <tr>
+    <th style="width:100px;margin-left:10px;">tracking number</th>
+    <th style="width:100px;margin-left:10px;">total weight</th>
+    <th style="width:100px;margin-left:10px;">total weight carrier</th>
+    <th style="width:50px;margin-left:10px;">overweight</th>
+    </tr>
+    </thead>
+    <tbody>
+        <% @labels.each do |label| %> 
+        <tr style="background-color:<%= label.row_color %>">
+        <td style="width:100px;margin-left:10px;"><%=label.tracking_number%></td>
+        <td style="width:100px;margin-left:10px;text-align:center"><%=label.total_weight%></td>
+        <td style="width:50px;margin-left:10px;text-align:center"><%=label.total_weight_carrier%></td>
+        <td style="width:50px;margin-left:10px;text-align:center"><%=label.overweight_value%></td>
+        </tr>        
+        <% end %>
+     </tbody>
+</table>
+</div>
+</div>

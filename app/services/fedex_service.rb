@@ -6,6 +6,7 @@ class FedexService
         @fedex_client = Fedex::Shipment.new(fedex_configuration)
     end
 
+
     def tracking(tracking_number)
       results = @fedex_client.track(:tracking_number=> tracking_number)
       tracking_info = results.first

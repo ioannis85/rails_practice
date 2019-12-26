@@ -1,26 +1,30 @@
-<h1>Importar Labels</h1>
+<div style="margin:0 auto;width:600px">
+<h1>Import Labels</h1>
 <div>
 <input type="file" id="json_picker"
   accept=".json,application/json">
 <div>
 </br>
-<h2>Vista previa</h2>
+<h2>Preview</h2>
 <table id="tbl_result">
 <thead>  
-<th>tracking number</th>
-<th>carrier</th>
-<th>length</th>
-<th>width</th>
-<th>height</th>
-<th>weight</th>
-<th>distance unit</th>
-<th>mass unit</th>
+<tr>
+<th style="width:100px;margin-left:10px;">tracking number</th>
+<th style="width:100px;margin-left:15px;">carrier</th>
+<th style="width:50px;margin-left:10px;">length</th>
+<th style="width:50px;margin-left:10px;">width</th>
+<th style="width:50px;margin-left:10px;">height</th>
+<th style="width:50px;margin-left:10px;">weight</th>
+<th style="width:50px;margin-left:10px;">distance unit</th>
+<th style="width:50px;margin-left:10px;">mass unit</th>
+<tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 </div>
-  <button id="btn_import_lbls">Importar</button>
+  <button id="btn_import_lbls">Import</button>
+</div>
 </div>
 <script>
 (function(){
@@ -40,8 +44,18 @@ let json_data = []
 });
  const btn_import = document.getElementById('btn_import_lbls');
  btn_import.addEventListener('click',function(evt){  
+     if(!json_data.length){
+        alert('favor de importar archivo')
+        return
+     }
      sendPostData(json_data)
  })
+
+function clearTable(){
+    const table = document.getElementById('tbl_result')
+    const tbody = table.tBodies[0]
+    tbody.innerHTML = '';
+}
 
 function buildTable(data){
 const table = document.getElementById('tbl_result')
@@ -49,13 +63,14 @@ const tbody = table.tBodies[0]
 tbody.innerHTML = '';
 data.forEach(function(el){
     const tr = `<tr> 
-                <td>${el.tracking_number}</td>
-                <td>${el.carrier}</td>
-                <td>${el.parcel.length}</td>
-                <td>${el.parcel.width}</td>
-                <td>${el.parcel.height}</td>
-                <td>${el.parcel.distance_unit}</td>
-                <td>${el.parcel.mass_unit}</td>
+                <td style="width:100px;margin-left:10px;">${el.tracking_number}</td>
+                <td style="width:100px;text-align:center">${el.carrier}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.length}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.width}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.height}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.weight}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.distance_unit}</td>
+                <td style="width:50px;margin-left:10px;text-align:center">${el.parcel.mass_unit}</td>
                 </tr>`
     tbody.innerHTML += tr
 })
@@ -70,6 +85,8 @@ function sendPostData(data){
         if (this.readyState === XMLHttpRequest.DONE) {
             if(this.status === 200){
                 alert('archivo cargado con éxito');
+                clearTable();
+                json_data = []
             } else {
                 alert('error al cargar el archivo');
             }

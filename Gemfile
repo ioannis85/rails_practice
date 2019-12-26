@@ -30,6 +30,7 @@ gem 'fedex'
 gem 'parallel','~> 1.19.1'
 gem 'activerecord-import'
 gem 'pg'
+gem 'draper'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

@@ -1,6 +1,6 @@
 class CarrierFactory
     attr_reader :availableCarriers, :label
-
+    
     def initialize(label)
         @label = label
         @availableCarriers = {:FEDEX=> FedexCarrier.new(label) }

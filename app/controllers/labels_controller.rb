@@ -1,8 +1,6 @@
 class LabelsController < ApplicationController
-
   skip_before_action :verify_authenticity_token, :only => [:load_labels]
   before_action :initialize_overweight_service, :only =>[:load_labels]
-  
   def load_labels
     labels = labels_params
     results = @overweight_service.calculate(labels[:labels])
@@ -14,10 +12,9 @@ class LabelsController < ApplicationController
   end
 
   def report
-    labels = Label.all
-    render :json => labels
+    @labels = Label.all.decorate
+    render "labels/report"
   end
-
 
 private
   def initialize_overweight_service
